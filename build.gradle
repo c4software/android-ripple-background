@@ -21,5 +21,6 @@ allprojects {
         mavenCentral()
         google()
         jcenter() // need for jitpack io to build
+        maven { url 'https://jitpack.io' } // to use the lib compiled
     }
 }
