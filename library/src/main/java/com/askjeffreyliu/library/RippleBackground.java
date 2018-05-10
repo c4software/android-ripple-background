@@ -1,4 +1,4 @@
-package com.skyfishjy.library;
+package com.askjeffreyliu.library;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 /**
- * Created by fyu on 11/3/14.
+ * Change circle to any icon
  */
 
 public class RippleBackground extends FrameLayout {

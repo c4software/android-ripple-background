@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".DemoActivity">
 
-    <com.skyfishjy.library.RippleBackground
+    <com.askjeffreyliu.library.RippleBackground
         android:id="@+id/rippleBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
             android:src="@drawable/phone1" />
 
 
-    </com.skyfishjy.library.RippleBackground>
+    </com.askjeffreyliu.library.RippleBackground>
 
     <ImageView
         android:id="@+id/foundDevice"
