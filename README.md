@@ -11,34 +11,49 @@ A beautiful ripple animation for your app. You can easily change its color, spee
 ####Install with Gradle
 
 ```groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+
+```groovy
 dependencies {
-        compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+        implementation 'com.github.jeffreyliu8:android-ripple-background:-SNAPSHOT'
 }
 ```
 ###Step 2
 ####RippleBackground
 
-Add `RippleBackground` to your layout with content you want, like an ImageView. Configure the view customization elements using styleable attributes.
+Add `RippleBackground` to your layout with content you want, like an ImageView. Configure the view customization elements using styleable attributes. NOTE: RippleBackground extends FrameLayout, not RelativeLayout 
  
 ```xml
-<com.skyfishjy.library.RippleBackground
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/content"
-    app:rb_color="#0099CC"
-    app:rb_radius="32dp"
-    app:rb_rippleAmount="4"
-    app:rb_duration="3000"
-    app:rb_scale="6">
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_centerInParent="true"
-        android:id="@+id/centerImage"
-        android:src="@drawable/demoImage"/>
-</com.skyfishjy.library.RippleBackground>
+    <com.askjeffreyliu.library.RippleBackground
+        android:id="@+id/rippleBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rb_color="#0099CC"
+        app:rb_duration="3000"
+        app:rb_radius="32dp"
+        app:rb_rippleAmount="6"
+        app:rb_scale="6"
+        app:rb_icon="@drawable/ic_launcher"> <!-- NEW -->
+
+        <ImageView
+            android:id="@+id/centerImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/phone1" />
+
+    </com.askjeffreyliu.library.RippleBackground>
 ```
 Start animation:
 
@@ -66,5 +81,5 @@ Stop animation:
 * app:rb_scale [interger def:6] --> Scale of ripple at the end of one animation cycle
 * app:rb_type [enum (fillRipple, strokeRipple) def:fillRipple] --> Filled circle or ring
 * app:rb_strokeWidth [dimension def:2dp] --> Stroke width of the ripple, ONLY work when rb_type="strokeRipple"
+* app:rb_icon [reference def:@drawable/ic_launcher] --> NEW!!! The drawable from your resources, THIS OVERRIDE THE CIRCLE RIPPLE, remove this if you want the old circle
 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--ripple--background-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1107)
