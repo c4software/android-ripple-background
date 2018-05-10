@@ -81,5 +81,5 @@ Stop animation:
 * app:rb_scale [interger def:6] --> Scale of ripple at the end of one animation cycle
 * app:rb_type [enum (fillRipple, strokeRipple) def:fillRipple] --> Filled circle or ring
 * app:rb_strokeWidth [dimension def:2dp] --> Stroke width of the ripple, ONLY work when rb_type="strokeRipple"
-* app:rb_icon [reference def:@drawable/ic_launcher] --> NEW!!! The drawable from your resources, THIS OVERRIDE THE CIRCLE RIPPLE, leave blank if you want the old circle
+* app:rb_icon [reference def:@drawable/ic_launcher] --> NEW!!! The drawable from your resources, THIS OVERRIDE THE CIRCLE RIPPLE, remove this if you want the old circle
 
