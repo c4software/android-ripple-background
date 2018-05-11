@@ -9,6 +9,8 @@ MAIN DIFFERENECE BETWEEN THIS FORK AND ORIGINAL:
 
 ![Simple Ripple](previews/rippleSimple.gif)　　　　　　![Multiple ripples](previews/rippleFoundDevice.gif)
 
+![Auto end ripples at border](previews/tut.png)
+
 ##Usage
 
 ###Step 1
