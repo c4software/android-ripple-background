@@ -20,12 +20,16 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo)
 
-
+//        rippleBackground.startRippleAnimation()
         val handler = Handler()
 
         centerImage.setOnClickListener {
             rippleBackground.startRippleAnimation()
             handler.postDelayed({ foundDevice() }, 3000)
+        }
+
+        foundDevice.setOnClickListener {
+            rippleBackground.stopRippleAnimation()
         }
     }
 

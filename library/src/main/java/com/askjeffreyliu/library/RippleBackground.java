@@ -42,6 +42,8 @@ public class RippleBackground extends FrameLayout {
     private ArrayList<Animator> animatorList;
 
     private ArrayList<RippleView> rippleViewList = new ArrayList<>();
+    private boolean hasOnLayoutFinished = false;
+    private boolean shouldStartAnimate = false;
 
     public RippleBackground(Context context) {
         super(context);
@@ -105,17 +107,26 @@ public class RippleBackground extends FrameLayout {
             addView(rippleView, rippleParams);
             rippleViewList.add(rippleView);
         }
+
+        if (rippleScale >= 0) { // user set scale ratio
+            setAnimationSettings();
+        }
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
+        hasOnLayoutFinished = true;
+
         if (rippleScale < 0) { // scale ratio not set, scale to touch the border of view
             float pixel = Math.min(right - left, bottom - top);
             rippleScale = pixel / rippleParams.width; // width and height are the same size
+            setAnimationSettings();
         }
-        setAnimationSettings();
+        if (shouldStartAnimate) {
+            startRippleAnimation();
+        }
     }
 
     private void setAnimationSettings() {
@@ -164,16 +175,20 @@ public class RippleBackground extends FrameLayout {
     }
 
     public void startRippleAnimation() {
-        if (!isRippleAnimationRunning()) {
-            for (RippleView rippleView : rippleViewList) {
-                rippleView.setVisibility(VISIBLE);
+        shouldStartAnimate = true;
+        if (hasOnLayoutFinished) {
+            if (!isRippleAnimationRunning()) {
+                for (RippleView rippleView : rippleViewList) {
+                    rippleView.setVisibility(VISIBLE);
+                }
+                animatorSet.start();
+                animationRunning = true;
             }
-            animatorSet.start();
-            animationRunning = true;
         }
     }
 
     public void stopRippleAnimation() {
+        shouldStartAnimate = false;
         if (isRippleAnimationRunning()) {
             animatorSet.end();
             animationRunning = false;
