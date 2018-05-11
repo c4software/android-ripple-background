@@ -48,7 +48,7 @@ Add `RippleBackground` to your layout with content you want, like an ImageView. 
         app:rb_duration="3000"
         app:rb_radius="32dp"
         app:rb_rippleAmount="6"
-        app:rb_scale="6"
+        app:rb_scale="6" <!-- Optional -->
         app:rb_icon="@drawable/ic_launcher"> <!-- NEW -->
 
         <ImageView
