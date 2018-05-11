@@ -19,6 +19,7 @@
         app:rb_radius="32dp"
         app:rb_rippleAmount="6"
         app:rb_scale="6"
+        app:rb_type="fillRipple"
         app:rb_icon="@drawable/ic_launcher">
 
         <ImageView

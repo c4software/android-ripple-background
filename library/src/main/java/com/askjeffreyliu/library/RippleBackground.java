@@ -25,15 +25,21 @@ public class RippleBackground extends FrameLayout {
 
     private static final int DEFAULT_RIPPLE_COUNT = 6;
     private static final int DEFAULT_DURATION_TIME = 3000;
-    private static final float DEFAULT_SCALE = 6.0f;
+    private static final float DEFAULT_SCALE = -1.0f;
     private static final int DEFAULT_FILL_TYPE = 0;
 
-    private float rippleStrokeWidth;
+//    private float rippleStrokeWidth;
 
     private Paint paint;
+    private int rippleDelay;
+    private float rippleScale;
+    private int rippleDurationTime;
     private boolean animationRunning = false;
-    private boolean isIcon = false; // default is false, drawing circle
+    private Drawable drawable = null;
     private AnimatorSet animatorSet;
+    private LayoutParams rippleParams;
+
+    private ArrayList<Animator> animatorList;
 
     private ArrayList<RippleView> rippleViewList = new ArrayList<>();
 
@@ -61,35 +67,35 @@ public class RippleBackground extends FrameLayout {
 
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RippleBackground);
         int rippleColor = typedArray.getColor(R.styleable.RippleBackground_rb_color, getResources().getColor(R.color.rippelColor));
-        rippleStrokeWidth = typedArray.getDimension(R.styleable.RippleBackground_rb_strokeWidth, getResources().getDimension(R.dimen.rippleStrokeWidth));
+//        rippleStrokeWidth = typedArray.getDimension(R.styleable.RippleBackground_rb_strokeWidth, getResources().getDimension(R.dimen.rippleStrokeWidth));
         float rippleRadius = typedArray.getDimension(R.styleable.RippleBackground_rb_radius, getResources().getDimension(R.dimen.rippleRadius));
-        int rippleDurationTime = typedArray.getInt(R.styleable.RippleBackground_rb_duration, DEFAULT_DURATION_TIME);
+        rippleDurationTime = typedArray.getInt(R.styleable.RippleBackground_rb_duration, DEFAULT_DURATION_TIME);
         int rippleAmount = typedArray.getInt(R.styleable.RippleBackground_rb_rippleAmount, DEFAULT_RIPPLE_COUNT);
-        float rippleScale = typedArray.getFloat(R.styleable.RippleBackground_rb_scale, DEFAULT_SCALE);
+        rippleScale = typedArray.getFloat(R.styleable.RippleBackground_rb_scale, DEFAULT_SCALE);
         int rippleType = typedArray.getInt(R.styleable.RippleBackground_rb_type, DEFAULT_FILL_TYPE);
-        Drawable drawable = typedArray.getDrawable(R.styleable.RippleBackground_rb_icon);
-        if (drawable != null) {
-            isIcon = true;
-        }
+        drawable = typedArray.getDrawable(R.styleable.RippleBackground_rb_icon);
         typedArray.recycle();
 
-        int rippleDelay = rippleDurationTime / rippleAmount;
+        rippleDelay = rippleDurationTime / rippleAmount;
 
         paint = new Paint();
         paint.setAntiAlias(true);
         if (rippleType == DEFAULT_FILL_TYPE) {
-            rippleStrokeWidth = 0;
+//            rippleStrokeWidth = 0;
             paint.setStyle(Paint.Style.FILL);
-        } else
+        } else {
             paint.setStyle(Paint.Style.STROKE);
+        }
         paint.setColor(rippleColor);
 
-        LayoutParams rippleParams = new LayoutParams((int) (2 * (rippleRadius + rippleStrokeWidth)), (int) (2 * (rippleRadius + rippleStrokeWidth)));
+        int size = (int) (2 * rippleRadius);
+
+        rippleParams = new LayoutParams(size, size);
         rippleParams.gravity = Gravity.CENTER;
 
         animatorSet = new AnimatorSet();
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        ArrayList<Animator> animatorList = new ArrayList<>();
+        animatorList = new ArrayList<>();
 
         for (int i = 0; i < rippleAmount; i++) {
             RippleView rippleView = new RippleView(getContext());
@@ -98,6 +104,23 @@ public class RippleBackground extends FrameLayout {
             }
             addView(rippleView, rippleParams);
             rippleViewList.add(rippleView);
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+        if (rippleScale < 0) { // scale ratio not set, scale to touch the border of view
+            float pixel = Math.min(right - left, bottom - top);
+            rippleScale = pixel / rippleParams.width; // width and height are the same size
+        }
+        setAnimationSettings();
+    }
+
+    private void setAnimationSettings() {
+        for (int i = 0; i < rippleViewList.size(); i++) {
+            RippleView rippleView = rippleViewList.get(i);
             final ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(rippleView, "ScaleX", 1.0f, rippleScale);
             scaleXAnimator.setRepeatCount(ObjectAnimator.INFINITE);
             scaleXAnimator.setRepeatMode(ObjectAnimator.RESTART);
@@ -131,12 +154,12 @@ public class RippleBackground extends FrameLayout {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            if (isIcon) {
+            if (drawable != null) {
                 super.onDraw(canvas);
                 return;
             }
             int radius = (Math.min(getWidth(), getHeight())) / 2;
-            canvas.drawCircle(radius, radius, radius - rippleStrokeWidth, paint);
+            canvas.drawCircle(radius, radius, radius, paint);
         }
     }
 
