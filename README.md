@@ -27,7 +27,7 @@ allprojects {
 
 ```groovy
 dependencies {
-        implementation 'com.github.jeffreyliu8:android-ripple-background:-SNAPSHOT'
+        implementation 'com.github.jeffreyliu8:android-ripple-background:1.0.1'
 }
 ```
 ###Step 2
